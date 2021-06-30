@@ -21,14 +21,15 @@ def upload(request):
     
     if request.method=="POST":
         form=DocumentForm(request.POST,request.FILES)
-        
+        files = request.FILES.getlist('file')
         if form.is_valid():
-            handle_uploaded_file(request.FILES['file'])
-            
-            file = form.cleaned_data.get('file')
-            title = form.cleaned_data.get('title')
+            for f in files:
+                handle_uploaded_file(f)
+                
+                file = f
+                title = f.name
 
-            Document.objects.create(user=request.user,file = file,title=title)
+                Document.objects.create(user=request.user,file = file,title=title)
             messages.success(request,f'CONGRATS , Your file is uploaded')
             return redirect('list')
     else:

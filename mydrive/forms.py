@@ -10,10 +10,7 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields= [ 'username','password1','password2']
 
-class DocumentForm(forms.ModelForm):
-    class Meta:
-        model = Document
-        fields=[
-            'title',
-            'file',
-        ]
+class DocumentForm(forms.Form):
+    
+    
+    file = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}))
